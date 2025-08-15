@@ -9,7 +9,7 @@ class AdvancedRobot {
         this.robotY = window.innerHeight / 2;
         this.targetX = this.robotX;
         this.targetY = this.robotY;
-        this.walkSpeed = 0.08;
+        this.walkSpeed = 0.03; // Super slow for micro robot
         this.isVisible = true;
         this.lastMoveTime = Date.now();
         this.idleTimer = null;
@@ -34,7 +34,7 @@ class AdvancedRobot {
             this.startWalking();
             this.enableWallWalking();
             this.scheduleCuteActions();
-        }, 3000);
+        }, 2000);
         
         // Mouse move handler for interaction
         document.addEventListener('mousemove', (e) => {
@@ -42,9 +42,9 @@ class AdvancedRobot {
             this.mouseY = e.clientY;
             this.lastMoveTime = Date.now();
             
-            // Robot looks towards mouse when it's nearby
+            // Robot looks towards mouse when it's nearby (micro detection range)
             const distance = this.getDistance(this.robotX, this.robotY, this.mouseX, this.mouseY);
-            if (distance < 150) {
+            if (distance < 60) {
                 this.lookAtMouse();
             }
         });
@@ -76,7 +76,7 @@ class AdvancedRobot {
         // Start animation loop
         this.animate();
         
-        console.log('🤖 Advanced Walking Robot initialized!');
+        console.log('🤖 Micro 0.5-inch Walking Robot initialized!');
     }
     
     startWalking() {
@@ -84,7 +84,7 @@ class AdvancedRobot {
         this.robot.classList.add('walking');
         
         // Show welcome message
-        this.showRobotMessage("ROBO-DEV v2.0 ONLINE! 🤖 Ready to assist!");
+        this.showRobotMessage("Micro bot! 🤖");
     }
     
     enableWallWalking() {
@@ -96,7 +96,7 @@ class AdvancedRobot {
     }
     
     moveToWall() {
-        const margin = 50;
+        const margin = 20; // Micro margin for micro robot
         switch(this.currentWallSide) {
             case 'top':
                 this.targetX = margin + (this.wallProgress * (window.innerWidth - 2 * margin));
@@ -122,7 +122,7 @@ class AdvancedRobot {
     }
     
     scheduleCuteActions() {
-        const randomDelay = 3000 + Math.random() * 7000; // 3-10 seconds
+        const randomDelay = 2000 + Math.random() * 5000; // 2-7 seconds (more frequent for tiny robot)
         this.cuteActionTimer = setTimeout(() => {
             this.performCuteAction();
             this.scheduleCuteActions(); // Schedule next action
@@ -249,7 +249,7 @@ class AdvancedRobot {
         
         // Wall walking behavior
         if (this.autonomousMode && this.isOnWall) {
-            this.wallProgress += 0.003; // Slow walking speed
+            this.wallProgress += 0.001; // Super slow for micro robot
             
             if (this.wallProgress >= 1) {
                 this.wallProgress = 0;
@@ -267,8 +267,8 @@ class AdvancedRobot {
         this.robotX += dx * this.walkSpeed;
         this.robotY += dy * this.walkSpeed;
         
-        // Keep robot within viewport bounds
-        const margin = 120;
+        // Keep robot within viewport bounds (micro margin for micro robot)
+        const margin = 40;
         this.robotX = Math.max(margin, Math.min(window.innerWidth - margin, this.robotX));
         this.robotY = Math.max(margin, Math.min(window.innerHeight - margin, this.robotY));
         
@@ -473,37 +473,37 @@ class AdvancedRobot {
         messageElement.style.cssText = `
             position: fixed;
             left: ${this.robotX}px;
-            top: ${this.robotY - 140}px;
+            top: ${this.robotY - 50}px;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.85);
             color: #00FFFF;
-            padding: 12px 18px;
-            border-radius: 15px;
-            border: 2px solid #00FFFF;
-            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #00FFFF;
+            font-size: 9px;
             font-weight: 500;
             font-family: 'Courier New', monospace;
             z-index: 10001;
             pointer-events: none;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4);
-            max-width: 250px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.25);
+            max-width: 100px;
             text-align: center;
             word-wrap: break-word;
-            animation: robotMessageAppear 0.4s ease-out forwards;
-            letter-spacing: 0.5px;
+            animation: robotMessageAppear 0.25s ease-out forwards;
+            letter-spacing: 0.2px;
         `;
         
         document.body.appendChild(messageElement);
         
         setTimeout(() => {
-            messageElement.style.animation = 'robotMessageDisappear 0.4s ease-out forwards';
+            messageElement.style.animation = 'robotMessageDisappear 0.25s ease-out forwards';
             setTimeout(() => {
                 if (messageElement.parentNode) {
                     messageElement.parentNode.removeChild(messageElement);
                 }
-            }, 400);
-        }, 3500);
+            }, 250);
+        }, 2000);
     }
     
     getRandomWalkMessage() {
@@ -685,6 +685,6 @@ document.querySelectorAll('section[id]').forEach(section => {
     robotSectionObserver.observe(section);
 });
 
-console.log('🤖 Advanced Walking Robot System Loaded!');
-console.log('🚶 Features: Autonomous Walking, Mouse Interaction, Holographic Effects');
-console.log('⚡ Try clicking around and watch the robot explore your portfolio!');
+console.log('🤖 Micro 0.5-inch Walking Robot System Loaded!');
+console.log('🚶 Features: Micro Wall Walking, Mini Flips, Tiny Greetings');
+console.log('⚡ Look closely and click to see the micro robot!');

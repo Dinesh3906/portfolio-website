@@ -1,0 +1,262 @@
+/* ===== SIMPLE CAT EMOJI STYLES ===== */
+
+.walking-cat {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    will-change: transform;
+    background: rgba(255, 192, 203, 0.2);
+    padding: 20px;
+    border-radius: 50%;
+    border: 2px dashed #FF69B4;
+}
+
+.cat-emoji {
+    font-size: 80px;
+    animation: catFloat 3s ease-in-out infinite, catEntry 2s ease-out;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    display: block;
+    line-height: 1;
+}
+
+.walking-cat:hover .cat-emoji {
+    font-size: 96px;
+    animation: catExcited 0.5s ease-in-out infinite;
+}
+
+.walking-cat.walking .cat-emoji {
+    animation: catWalk 1s ease-in-out infinite, catFloat 3s ease-in-out infinite;
+}
+
+.walking-cat.happy .cat-emoji::before {
+    content: '😸';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.walking-cat.sleeping .cat-emoji::before {
+    content: '😴';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.walking-cat.playing .cat-emoji::before {
+    content: '😻';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.walking-cat.stretching .cat-emoji::before {
+    content: '🙀';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Cat Speech Bubble */
+.cat-speech {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: #FF69B4;
+    padding: 8px 12px;
+    border-radius: 15px;
+    border: 2px solid #FF69B4;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    min-width: 60px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.cat-speech::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #FF69B4;
+}
+
+.walking-cat:hover .cat-speech,
+.walking-cat.speaking .cat-speech {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+/* ===== CAT ANIMATIONS ===== */
+
+@keyframes catEntry {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes catFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-12px) rotate(-2deg);
+    }
+}
+
+@keyframes catWalk {
+    0%, 100% {
+        transform: translateY(0px) scaleX(1);
+    }
+    25% {
+        transform: translateY(-3px) scaleX(1.1);
+    }
+    50% {
+        transform: translateY(-1px) scaleX(1);
+    }
+    75% {
+        transform: translateY(-5px) scaleX(0.9);
+    }
+}
+
+@keyframes catExcited {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    50% {
+        transform: scale(1.05) rotate(0deg);
+    }
+    75% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+}
+
+@keyframes catJump {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-20px) scale(1.2);
+    }
+}
+
+@keyframes catSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes heartFloat {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2) translateY(-30px);
+        opacity: 0;
+    }
+}
+
+@keyframes messageAppear {
+    0% {
+        transform: translateX(-50%) translateY(10px) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-50%) translateY(0px) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes messageDisappear {
+    0% {
+        transform: translateX(-50%) translateY(0px) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) translateY(-10px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Responsive Cat */
+@media (max-width: 768px) {
+    .cat-emoji {
+        font-size: 40px;
+    }
+    
+    .walking-cat:hover .cat-emoji {
+        font-size: 48px;
+    }
+    
+    .cat-speech {
+        font-size: 11px;
+        padding: 6px 10px;
+        min-width: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cat-emoji {
+        font-size: 36px;
+    }
+    
+    .walking-cat:hover .cat-emoji {
+        font-size: 42px;
+    }
+    
+    .cat-speech {
+        font-size: 10px;
+        padding: 5px 8px;
+        min-width: 45px;
+    }
+}
+
+/* Performance Optimizations */
+.walking-cat * {
+    will-change: transform;
+    backface-visibility: hidden;
+}
