@@ -1463,3 +1463,682 @@ body {
         scroll-margin-top: 80px;
     }
 }
+/* ==
+=== MINECRAFT CHARACTER STYLES ===== */
+.minecraft-character {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    pointer-events: none;
+    transition: all 0.1s ease-out;
+    filter: drop-shadow(0 20px 40px rgba(0, 212, 255, 0.3));
+}
+
+.character-container {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: characterEntry 3s ease-out forwards, characterFloat 4s ease-in-out infinite 3s;
+}
+
+.character-body {
+    position: relative;
+    transform-style: preserve-3d;
+    scale: 0.8;
+    transition: all 0.3s ease;
+}
+
+.minecraft-character:hover .character-body {
+    scale: 1;
+    animation: characterExcited 0.6s ease-in-out;
+}
+
+/* Character Parts */
+.character-head {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    transform-style: preserve-3d;
+    margin: 0 auto;
+    animation: headBob 2s ease-in-out infinite;
+}
+
+.character-torso {
+    position: relative;
+    width: 64px;
+    height: 96px;
+    transform-style: preserve-3d;
+    margin: 0 auto;
+    margin-top: -8px;
+}
+
+.character-arm {
+    position: absolute;
+    width: 32px;
+    height: 96px;
+    transform-style: preserve-3d;
+    top: 64px;
+    animation: armSwing 3s ease-in-out infinite;
+}
+
+.left-arm {
+    left: -40px;
+    transform-origin: 50% 0%;
+    animation-delay: 0s;
+}
+
+.right-arm {
+    right: -40px;
+    transform-origin: 50% 0%;
+    animation-delay: 1.5s;
+}
+
+.character-leg {
+    position: absolute;
+    width: 32px;
+    height: 96px;
+    transform-style: preserve-3d;
+    top: 152px;
+    animation: legWalk 2s ease-in-out infinite;
+}
+
+.left-leg {
+    left: 8px;
+    transform-origin: 50% 0%;
+    animation-delay: 0s;
+}
+
+.right-leg {
+    right: 8px;
+    transform-origin: 50% 0%;
+    animation-delay: 1s;
+}
+
+/* Cube Faces */
+.face {
+    position: absolute;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    border: 2px solid #654321;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Head Faces */
+.character-head .face.front {
+    width: 64px;
+    height: 64px;
+    transform: translateZ(32px);
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-head .face.back {
+    width: 64px;
+    height: 64px;
+    transform: translateZ(-32px) rotateY(180deg);
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+}
+
+.character-head .face.left {
+    width: 64px;
+    height: 64px;
+    transform: rotateY(-90deg) translateZ(32px);
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-head .face.right {
+    width: 64px;
+    height: 64px;
+    transform: rotateY(90deg) translateZ(32px);
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-head .face.top {
+    width: 64px;
+    height: 64px;
+    transform: rotateX(90deg) translateZ(32px);
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+}
+
+.character-head .face.bottom {
+    width: 64px;
+    height: 64px;
+    transform: rotateX(-90deg) translateZ(32px);
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+/* Face Features */
+.eye {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    top: 20px;
+    border-radius: 2px;
+    animation: eyeBlink 4s ease-in-out infinite;
+}
+
+.left-eye {
+    left: 16px;
+}
+
+.right-eye {
+    right: 16px;
+}
+
+.mouth {
+    position: absolute;
+    width: 16px;
+    height: 4px;
+    background: #000;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Torso Faces */
+.character-torso .face.front,
+.character-torso .face.back {
+    width: 64px;
+    height: 96px;
+    background: linear-gradient(135deg, #4169E1 0%, #0000FF 50%, #4169E1 100%);
+    border-color: #191970;
+}
+
+.character-torso .face.front {
+    transform: translateZ(16px);
+}
+
+.character-torso .face.back {
+    transform: translateZ(-16px) rotateY(180deg);
+}
+
+.character-torso .face.left,
+.character-torso .face.right {
+    width: 32px;
+    height: 96px;
+    background: linear-gradient(135deg, #4169E1 0%, #0000FF 50%, #4169E1 100%);
+    border-color: #191970;
+}
+
+.character-torso .face.left {
+    transform: rotateY(-90deg) translateZ(16px);
+}
+
+.character-torso .face.right {
+    transform: rotateY(90deg) translateZ(16px);
+}
+
+.character-torso .face.top,
+.character-torso .face.bottom {
+    width: 64px;
+    height: 32px;
+    background: linear-gradient(135deg, #4169E1 0%, #0000FF 50%, #4169E1 100%);
+    border-color: #191970;
+}
+
+.character-torso .face.top {
+    transform: rotateX(90deg) translateZ(48px);
+}
+
+.character-torso .face.bottom {
+    transform: rotateX(-90deg) translateZ(48px);
+}
+
+/* Arm Faces */
+.character-arm .face.front,
+.character-arm .face.back {
+    width: 32px;
+    height: 96px;
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-arm .face.front {
+    transform: translateZ(16px);
+}
+
+.character-arm .face.back {
+    transform: translateZ(-16px) rotateY(180deg);
+}
+
+.character-arm .face.left,
+.character-arm .face.right {
+    width: 32px;
+    height: 96px;
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-arm .face.left {
+    transform: rotateY(-90deg) translateZ(16px);
+}
+
+.character-arm .face.right {
+    transform: rotateY(90deg) translateZ(16px);
+}
+
+.character-arm .face.top,
+.character-arm .face.bottom {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #FDBCB4 0%, #F4A460 50%, #FDBCB4 100%);
+    border-color: #DEB887;
+}
+
+.character-arm .face.top {
+    transform: rotateX(90deg) translateZ(48px);
+}
+
+.character-arm .face.bottom {
+    transform: rotateX(-90deg) translateZ(48px);
+}
+
+/* Leg Faces */
+.character-leg .face.front,
+.character-leg .face.back {
+    width: 32px;
+    height: 96px;
+    background: linear-gradient(135deg, #000080 0%, #191970 50%, #000080 100%);
+    border-color: #000040;
+}
+
+.character-leg .face.front {
+    transform: translateZ(16px);
+}
+
+.character-leg .face.back {
+    transform: translateZ(-16px) rotateY(180deg);
+}
+
+.character-leg .face.left,
+.character-leg .face.right {
+    width: 32px;
+    height: 96px;
+    background: linear-gradient(135deg, #000080 0%, #191970 50%, #000080 100%);
+    border-color: #000040;
+}
+
+.character-leg .face.left {
+    transform: rotateY(-90deg) translateZ(16px);
+}
+
+.character-leg .face.right {
+    transform: rotateY(90deg) translateZ(16px);
+}
+
+.character-leg .face.top,
+.character-leg .face.bottom {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #000080 0%, #191970 50%, #000080 100%);
+    border-color: #000040;
+}
+
+.character-leg .face.top {
+    transform: rotateX(90deg) translateZ(48px);
+}
+
+.character-leg .face.bottom {
+    transform: rotateX(-90deg) translateZ(48px);
+}
+
+/* Particle System */
+.particle-system {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: particleFloat 3s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+    background: #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+.particle:nth-child(2) {
+    top: 30%;
+    right: 15%;
+    animation-delay: 0.5s;
+    background: #FF6B6B;
+    box-shadow: 0 0 10px #FF6B6B;
+}
+
+.particle:nth-child(3) {
+    bottom: 25%;
+    left: 20%;
+    animation-delay: 1s;
+    background: #4ECDC4;
+    box-shadow: 0 0 10px #4ECDC4;
+}
+
+.particle:nth-child(4) {
+    bottom: 35%;
+    right: 10%;
+    animation-delay: 1.5s;
+    background: #45B7D1;
+    box-shadow: 0 0 10px #45B7D1;
+}
+
+.particle:nth-child(5) {
+    top: 50%;
+    left: 5%;
+    animation-delay: 2s;
+    background: #96CEB4;
+    box-shadow: 0 0 10px #96CEB4;
+}
+
+.particle:nth-child(6) {
+    top: 60%;
+    right: 5%;
+    animation-delay: 2.5s;
+    background: #FFEAA7;
+    box-shadow: 0 0 10px #FFEAA7;
+}
+
+.particle:nth-child(7) {
+    top: 10%;
+    left: 50%;
+    animation-delay: 3s;
+    background: #DDA0DD;
+    box-shadow: 0 0 10px #DDA0DD;
+}
+
+.particle:nth-child(8) {
+    bottom: 10%;
+    left: 50%;
+    animation-delay: 3.5s;
+    background: #98D8C8;
+    box-shadow: 0 0 10px #98D8C8;
+}
+
+/* Magic Aura */
+.magic-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, rgba(78, 205, 196, 0.05) 50%, transparent 100%);
+    animation: auraGlow 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Character Shadow */
+.character-shadow {
+    position: absolute;
+    bottom: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 40px;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: shadowPulse 2s ease-in-out infinite;
+}
+
+/* Character Tooltip */
+.character-tooltip {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid var(--primary-color);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+.minecraft-character:hover .character-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.tooltip-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: var(--primary-color);
+}
+
+.tooltip-content p {
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.tooltip-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 11px;
+    color: #4ECDC4;
+}
+
+/* ===== MINECRAFT CHARACTER ANIMATIONS ===== */
+
+@keyframes characterEntry {
+    0% {
+        transform: scale(0) rotateY(0deg) translateY(-200px);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    30% {
+        transform: scale(0.5) rotateY(180deg) translateY(-100px);
+        opacity: 0.5;
+        filter: blur(5px);
+    }
+    60% {
+        transform: scale(1.2) rotateY(360deg) translateY(20px);
+        opacity: 0.8;
+        filter: blur(2px);
+    }
+    80% {
+        transform: scale(0.9) rotateY(360deg) translateY(-10px);
+        opacity: 0.9;
+        filter: blur(1px);
+    }
+    100% {
+        transform: scale(1) rotateY(360deg) translateY(0px);
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes characterFloat {
+    0%, 100% {
+        transform: translateY(0px) rotateY(0deg);
+    }
+    25% {
+        transform: translateY(-15px) rotateY(5deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateY(0deg);
+    }
+    75% {
+        transform: translateY(-20px) rotateY(-5deg);
+    }
+}
+
+@keyframes characterExcited {
+    0%, 100% {
+        transform: scale(1) rotateZ(0deg);
+    }
+    25% {
+        transform: scale(1.1) rotateZ(2deg);
+    }
+    50% {
+        transform: scale(1.05) rotateZ(0deg);
+    }
+    75% {
+        transform: scale(1.1) rotateZ(-2deg);
+    }
+}
+
+@keyframes headBob {
+    0%, 100% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    25% {
+        transform: rotateX(5deg) rotateY(2deg);
+    }
+    50% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    75% {
+        transform: rotateX(-5deg) rotateY(-2deg);
+    }
+}
+
+@keyframes armSwing {
+    0%, 100% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(20deg);
+    }
+}
+
+@keyframes legWalk {
+    0%, 100% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(15deg);
+    }
+}
+
+@keyframes eyeBlink {
+    0%, 90%, 100% {
+        height: 8px;
+    }
+    95% {
+        height: 2px;
+    }
+}
+
+@keyframes particleFloat {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.7;
+    }
+    25% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px) scale(0.8);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translateY(-30px) scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes auraGlow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+@keyframes shadowPulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateX(-50%) scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+/* Mouse Following Effect */
+.minecraft-character.following {
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Responsive Minecraft Character */
+@media (max-width: 768px) {
+    .minecraft-character {
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    
+    .character-tooltip {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+    
+    .tooltip-content h3 {
+        font-size: 14px;
+    }
+    
+    .tooltip-content p {
+        font-size: 10px;
+    }
+    
+    .tooltip-stats {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 480px) {
+    .minecraft-character {
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    
+    .particle-system {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .magic-aura {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Performance Optimizations */
+.minecraft-character * {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Hide character on very small screens to avoid clutter */
+@media (max-width: 320px) {
+    .minecraft-character {
+        display: none;
+    }
+}
