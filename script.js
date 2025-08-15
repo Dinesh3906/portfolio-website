@@ -129,28 +129,103 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Form submission
+// Form submission with localStorage database
 const contactForm = document.querySelector('.form');
+const formStatus = document.getElementById('form-status');
+
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = contactForm.querySelector('input[type="text"]').value;
-        const email = contactForm.querySelector('input[type="email"]').value;
-        const message = contactForm.querySelector('textarea').value;
+        // Show loading state
+        formStatus.className = 'form-status loading';
+        formStatus.textContent = 'Saving your message...';
         
-        // Simple validation
+        // Get form data
+        const name = contactForm.querySelector('input[name="name"]').value;
+        const email = contactForm.querySelector('input[name="email"]').value;
+        const message = contactForm.querySelector('textarea[name="message"]').value;
+        
+        // Validation
         if (!name || !email || !message) {
-            showNotification('Please fill in all fields', 'error');
+            formStatus.className = 'form-status error';
+            formStatus.textContent = 'Please fill in all fields.';
             return;
         }
         
-        // Simulate form submission
-        showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-        contactForm.reset();
+        if (!isValidEmail(email)) {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = 'Please enter a valid email address.';
+            return;
+        }
+        
+        try {
+            // Create contact entry
+            const contact = {
+                id: Date.now().toString(),
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                message: message.trim(),
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+            
+            // Get existing contacts from localStorage
+            let contacts = [];
+            try {
+                const existingContacts = localStorage.getItem('portfolioContacts');
+                if (existingContacts) {
+                    contacts = JSON.parse(existingContacts);
+                }
+            } catch (e) {
+                console.log('No existing contacts found');
+            }
+            
+            // Add new contact to beginning of array
+            contacts.unshift(contact);
+            
+            // Save to localStorage
+            localStorage.setItem('portfolioContacts', JSON.stringify(contacts));
+            
+            // Show success message
+            formStatus.className = 'form-status success';
+            formStatus.textContent = '✅ Message saved successfully! You can view it in the admin panel.';
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                formStatus.style.display = 'none';
+            }, 5000);
+            
+            // Also create email notification
+            const subject = `Portfolio Contact from ${name}`;
+            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+            const mailtoLink = `mailto:chalams115@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+            
+            // Optional: Open email client
+            setTimeout(() => {
+                if (confirm('Message saved! Would you also like to send this via email?')) {
+                    window.open(mailtoLink);
+                }
+            }, 2000);
+            
+            console.log('Contact saved:', contact);
+            
+        } catch (error) {
+            console.error('Form submission error:', error);
+            formStatus.className = 'form-status error';
+            formStatus.textContent = '❌ Error saving message. Please try again.';
+        }
     });
+}
+
+// Email validation function
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
 
 // Notification system
