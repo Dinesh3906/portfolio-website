@@ -1,92 +1,103 @@
-/* ===== SIMPLE CAT EMOJI STYLES ===== */
+/* ===== BEAUTIFUL WALKING CAT STYLES ===== */
 
-.walking-cat {
+.beautiful-cat {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
     pointer-events: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
-    background: rgba(255, 192, 203, 0.2);
-    padding: 20px;
-    border-radius: 50%;
-    border: 2px dashed #FF69B4;
+}
+
+.cat-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: catEntry 2.5s ease-out forwards, catFloat 4s ease-in-out infinite 2.5s;
 }
 
 .cat-emoji {
-    font-size: 80px;
-    animation: catFloat 3s ease-in-out infinite, catEntry 2s ease-out;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    user-select: none;
-    display: block;
+    font-size: 64px;
     line-height: 1;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+    animation: catBreathe 3s ease-in-out infinite;
 }
 
-.walking-cat:hover .cat-emoji {
-    font-size: 96px;
-    animation: catExcited 0.5s ease-in-out infinite;
+.beautiful-cat:hover .cat-emoji {
+    font-size: 72px;
+    animation: catExcited 0.6s ease-in-out infinite;
 }
 
-.walking-cat.walking .cat-emoji {
-    animation: catWalk 1s ease-in-out infinite, catFloat 3s ease-in-out infinite;
+.beautiful-cat.walking .cat-emoji {
+    animation: catWalk 1.2s ease-in-out infinite, catBreathe 3s ease-in-out infinite;
 }
 
-.walking-cat.happy .cat-emoji::before {
-    content: '😸';
+.beautiful-cat.happy .cat-emoji {
+    animation: catJump 0.8s ease-out, catBreathe 3s ease-in-out infinite 0.8s;
+}
+
+.cat-glow {
     position: absolute;
-    left: 0;
-    top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.3) 0%, rgba(255, 105, 180, 0.2) 40%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    animation: glowPulse 4s ease-in-out infinite;
 }
 
-.walking-cat.sleeping .cat-emoji::before {
-    content: '😴';
-    position: absolute;
-    left: 0;
-    top: 0;
+.beautiful-cat:hover .cat-glow {
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.5) 0%, rgba(255, 105, 180, 0.3) 40%, transparent 70%);
+    animation: glowExcited 0.6s ease-in-out infinite;
 }
 
-.walking-cat.playing .cat-emoji::before {
-    content: '😻';
+.cat-message {
     position: absolute;
-    left: 0;
-    top: 0;
-}
-
-.walking-cat.stretching .cat-emoji::before {
-    content: '🙀';
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-/* Cat Speech Bubble */
-.cat-speech {
-    position: absolute;
-    top: -60px;
+    top: -80px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
     color: #FF69B4;
-    padding: 8px 12px;
-    border-radius: 15px;
+    padding: 12px 18px;
+    border-radius: 20px;
     border: 2px solid #FF69B4;
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     pointer-events: none;
     backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-    min-width: 60px;
+    box-shadow: 
+        0 8px 25px rgba(255, 105, 180, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    min-width: 100px;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.cat-speech::after {
+.cat-message::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #FF69B4;
+}
+
+.cat-message::after {
     content: '';
     position: absolute;
     bottom: -8px;
@@ -96,29 +107,42 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid #FF69B4;
+    border-top: 8px solid rgba(255, 255, 255, 0.95);
 }
 
-.walking-cat:hover .cat-speech,
-.walking-cat.speaking .cat-speech {
+.beautiful-cat:hover .cat-message,
+.beautiful-cat.speaking .cat-message {
     opacity: 1;
-    transform: translateX(-50%) translateY(-5px);
+    transform: translateX(-50%) translateY(-8px);
 }
 
-/* ===== CAT ANIMATIONS ===== */
+.message-text {
+    display: block;
+    animation: textShimmer 2s ease-in-out infinite;
+}
+
+/* ===== BEAUTIFUL CAT ANIMATIONS ===== */
 
 @keyframes catEntry {
     0% {
-        transform: scale(0) rotate(0deg);
+        transform: scale(0) rotate(-180deg);
         opacity: 0;
+        filter: blur(10px);
     }
-    50% {
-        transform: scale(1.2) rotate(180deg);
+    60% {
+        transform: scale(1.2) rotate(0deg);
         opacity: 0.8;
+        filter: blur(2px);
+    }
+    80% {
+        transform: scale(0.9) rotate(0deg);
+        opacity: 0.95;
+        filter: blur(1px);
     }
     100% {
-        transform: scale(1) rotate(360deg);
+        transform: scale(1) rotate(0deg);
         opacity: 1;
+        filter: blur(0px);
     }
 }
 
@@ -127,13 +151,22 @@
         transform: translateY(0px) rotate(0deg);
     }
     25% {
-        transform: translateY(-8px) rotate(2deg);
+        transform: translateY(-12px) rotate(1deg);
     }
     50% {
-        transform: translateY(-5px) rotate(0deg);
+        transform: translateY(-8px) rotate(0deg);
     }
     75% {
-        transform: translateY(-12px) rotate(-2deg);
+        transform: translateY(-15px) rotate(-1deg);
+    }
+}
+
+@keyframes catBreathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
     }
 }
 
@@ -142,13 +175,13 @@
         transform: translateY(0px) scaleX(1);
     }
     25% {
-        transform: translateY(-3px) scaleX(1.1);
+        transform: translateY(-6px) scaleX(1.05);
     }
     50% {
-        transform: translateY(-1px) scaleX(1);
+        transform: translateY(-3px) scaleX(1);
     }
     75% {
-        transform: translateY(-5px) scaleX(0.9);
+        transform: translateY(-9px) scaleX(0.95);
     }
 }
 
@@ -157,13 +190,13 @@
         transform: scale(1) rotate(0deg);
     }
     25% {
-        transform: scale(1.1) rotate(5deg);
+        transform: scale(1.1) rotate(3deg);
     }
     50% {
         transform: scale(1.05) rotate(0deg);
     }
     75% {
-        transform: scale(1.1) rotate(-5deg);
+        transform: scale(1.1) rotate(-3deg);
     }
 }
 
@@ -171,92 +204,117 @@
     0%, 100% {
         transform: translateY(0px) scale(1);
     }
-    50% {
-        transform: translateY(-20px) scale(1.2);
+    30% {
+        transform: translateY(-25px) scale(1.15);
+    }
+    60% {
+        transform: translateY(-15px) scale(1.1);
     }
 }
 
-@keyframes catSpin {
-    0% {
-        transform: rotate(0deg);
+@keyframes glowPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
     }
-    100% {
-        transform: rotate(360deg);
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes glowExcited {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
+    }
+}
+
+@keyframes textShimmer {
+    0%, 100% {
+        color: #FF69B4;
+    }
+    50% {
+        color: #FF1493;
     }
 }
 
 @keyframes heartFloat {
     0% {
-        transform: translate(-50%, -50%) scale(0);
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
         opacity: 1;
+    }
+    20% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8) translateY(-80px) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 0;
     }
     50% {
-        transform: translate(-50%, -50%) scale(1.5);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(2) translateY(-30px);
-        opacity: 0;
-    }
-}
-
-@keyframes messageAppear {
-    0% {
-        transform: translateX(-50%) translateY(10px) scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(-50%) translateY(0px) scale(1);
+        transform: translate(-50%, -50%) scale(1) rotate(180deg);
         opacity: 1;
     }
 }
 
-@keyframes messageDisappear {
-    0% {
-        transform: translateX(-50%) translateY(0px) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-50%) translateY(-10px) scale(0.8);
-        opacity: 0;
-    }
-}
-
-/* Responsive Cat */
+/* Responsive Design */
 @media (max-width: 768px) {
     .cat-emoji {
-        font-size: 40px;
+        font-size: 56px;
     }
     
-    .walking-cat:hover .cat-emoji {
-        font-size: 48px;
+    .beautiful-cat:hover .cat-emoji {
+        font-size: 64px;
     }
     
-    .cat-speech {
-        font-size: 11px;
-        padding: 6px 10px;
-        min-width: 50px;
+    .cat-message {
+        font-size: 12px;
+        padding: 10px 15px;
+        min-width: 80px;
+    }
+    
+    .cat-glow {
+        width: 80px;
+        height: 80px;
     }
 }
 
 @media (max-width: 480px) {
     .cat-emoji {
-        font-size: 36px;
+        font-size: 48px;
     }
     
-    .walking-cat:hover .cat-emoji {
-        font-size: 42px;
+    .beautiful-cat:hover .cat-emoji {
+        font-size: 56px;
     }
     
-    .cat-speech {
-        font-size: 10px;
-        padding: 5px 8px;
-        min-width: 45px;
+    .cat-message {
+        font-size: 11px;
+        padding: 8px 12px;
+        min-width: 70px;
+    }
+    
+    .cat-glow {
+        width: 70px;
+        height: 70px;
     }
 }
 
 /* Performance Optimizations */
-.walking-cat * {
+.beautiful-cat * {
     will-change: transform;
     backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
