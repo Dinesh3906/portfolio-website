@@ -5,18 +5,8 @@ class BeautifulCat {
         this.catEmoji = this.cat?.querySelector('.cat-emoji');
         this.messageText = this.cat?.querySelector('.message-text');
         
-        // Position and movement
-        this.catX = window.innerWidth / 2;
-        this.catY = window.innerHeight / 2;
-        this.targetX = this.catX;
-        this.targetY = this.catY;
-        this.walkSpeed = 0.025;
+        // Cat is fixed in bottom-right corner (no movement)
         this.isWalking = false;
-        
-        // Wall walking
-        this.currentWall = 'bottom';
-        this.wallProgress = 0;
-        this.wallSpeed = 0.003;
         
         // Cat personality
         this.expressions = ['🐱', '😸', '😺', '😻', '🙀', '😽', '😹'];
@@ -35,123 +25,22 @@ class BeautifulCat {
             return;
         }
         
-        // Initial positioning
-        this.updatePosition();
-        
-        // Start walking after entry animation
+        // Schedule expression and message changes (cat stays in place)
         setTimeout(() => {
-            this.startWalking();
             this.scheduleExpressionChange();
             this.scheduleMessageChange();
         }, 2500);
         
-        // Mouse interactions
-        this.setupMouseInteractions();
-        
-        // Click interactions
+        // Click interactions on the cat itself
         this.setupClickInteractions();
         
         // Keyboard shortcuts
         this.setupKeyboardShortcuts();
         
-        // Start animation loop
-        this.animate();
-        
         console.log('🐱 Beautiful Cat initialized successfully!');
     }
     
-    startWalking() {
-        this.isWalking = true;
-        this.cat.classList.add('walking');
-        this.showMessage('Starting my walk! 🐾');
-        console.log('🐾 Cat started walking');
-    }
-    
-    animate() {
-        if (!this.isWalking) {
-            requestAnimationFrame(() => this.animate());
-            return;
-        }
-        
-        // Wall walking logic
-        this.wallProgress += this.wallSpeed;
-        
-        if (this.wallProgress >= 1) {
-            this.wallProgress = 0;
-            this.switchWall();
-        }
-        
-        this.calculateWallPosition();
-        
-        // Smooth movement towards target
-        const dx = this.targetX - this.catX;
-        const dy = this.targetY - this.catY;
-        
-        this.catX += dx * this.walkSpeed;
-        this.catY += dy * this.walkSpeed;
-        
-        // Keep within bounds
-        const margin = 80;
-        this.catX = Math.max(margin, Math.min(window.innerWidth - margin, this.catX));
-        this.catY = Math.max(margin, Math.min(window.innerHeight - margin, this.catY));
-        
-        // Update visual position
-        this.updatePosition();
-        
-        // Handle direction flipping
-        if (Math.abs(dx) > 2) {
-            const direction = dx > 0 ? 1 : -1;
-            this.catEmoji.style.transform = `scaleX(${direction})`;
-        }
-        
-        requestAnimationFrame(() => this.animate());
-    }
-    
-    calculateWallPosition() {
-        const margin = 60;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        switch (this.currentWall) {
-            case 'top':
-                this.targetX = margin + (this.wallProgress * (width - 2 * margin));
-                this.targetY = margin;
-                break;
-            case 'right':
-                this.targetX = width - margin;
-                this.targetY = margin + (this.wallProgress * (height - 2 * margin));
-                break;
-            case 'bottom':
-                this.targetX = width - margin - (this.wallProgress * (width - 2 * margin));
-                this.targetY = height - margin;
-                break;
-            case 'left':
-                this.targetX = margin;
-                this.targetY = height - margin - (this.wallProgress * (height - 2 * margin));
-                break;
-        }
-    }
-    
-    switchWall() {
-        const walls = ['top', 'right', 'bottom', 'left'];
-        const currentIndex = walls.indexOf(this.currentWall);
-        this.currentWall = walls[(currentIndex + 1) % walls.length];
-        
-        // Change expression when switching walls
-        this.changeExpression();
-        
-        // Show message occasionally
-        if (Math.random() < 0.4) {
-            this.showRandomMessage();
-        }
-        
-        console.log('🔄 Switched to wall:', this.currentWall);
-    }
-    
-    updatePosition() {
-        this.cat.style.left = this.catX + 'px';
-        this.cat.style.top = this.catY + 'px';
-    }
+    // Cat stays fixed — no walking or position updates needed
     
     changeExpression() {
         this.currentExpression = (this.currentExpression + 1) % this.expressions.length;
@@ -188,25 +77,10 @@ class BeautifulCat {
         this.showMessage(message);
     }
     
-    setupMouseInteractions() {
-        document.addEventListener('mousemove', (e) => {
-            const distance = this.getDistance(this.catX, this.catY, e.clientX, e.clientY);
-            
-            if (distance < 120) {
-                // Cat notices mouse
-                this.catEmoji.textContent = '😸';
-                this.cat.classList.add('happy');
-                
-                setTimeout(() => {
-                    this.cat.classList.remove('happy');
-                    this.catEmoji.textContent = this.expressions[this.currentExpression];
-                }, 2000);
-            }
-        });
-    }
-    
     setupClickInteractions() {
-        document.addEventListener('click', (e) => {
+        // Only respond to clicks on the cat itself
+        this.cat.addEventListener('click', (e) => {
+            e.stopPropagation();
             this.petCat(e.clientX, e.clientY);
         });
     }
@@ -348,18 +222,10 @@ class BeautifulCat {
     // Public methods
     pause() {
         this.isWalking = false;
-        this.cat.classList.remove('walking');
     }
     
     resume() {
-        this.isWalking = true;
-        this.cat.classList.add('walking');
-    }
-    
-    teleport(x, y) {
-        this.catX = x;
-        this.catY = y;
-        this.updatePosition();
+        this.isWalking = false; // Cat stays fixed
     }
 }
 

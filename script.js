@@ -51,13 +51,11 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
             
-            // Animate skill bars
-            if (entry.target.classList.contains('skill-card')) {
-                const skillBar = entry.target.querySelector('.skill-bar');
-                const level = skillBar.getAttribute('data-level');
-                setTimeout(() => {
-                    skillBar.style.width = level + '%';
-                }, 200);
+            // Observe impact numbers
+            if (entry.target.classList.contains('impact-item')) {
+                const impactNumber = entry.target.querySelector('.impact-number');
+                const finalValue = parseFloat(impactNumber.textContent);
+                animateNumber(impactNumber, finalValue);
             }
             
             // Animate stats
@@ -71,27 +69,33 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.skill-card, .project-card, .contact-item, .stat-item, .about-text, .code-window').forEach(el => {
+document.querySelectorAll('.skill-category, .project-card, .contact-item, .stat-item, .impact-item, .about-text, .code-window').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    el.style.transition = 'opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
     observer.observe(el);
 });
 
 // Animate numbers
 function animateNumber(element, target) {
+    const originalText = String(target);
+    const numericValue = parseFloat(originalText);
+    if (isNaN(numericValue)) return;
+    
+    // Detect suffix (e.g. "+", "%")
+    const suffix = originalText.replace(/[\d.]/g, '');
+    
     const duration = 2000;
-    const start = 0;
-    const increment = target / (duration / 16);
-    let current = start;
+    const increment = numericValue / (duration / 16);
+    let current = 0;
     
     const timer = setInterval(() => {
         current += increment;
-        if (current >= target) {
-            element.textContent = target;
+        if (current >= numericValue) {
+            element.textContent = originalText;
             clearInterval(timer);
         } else {
-            element.textContent = Math.floor(current) + (target.includes('+') ? '+' : '');
+            element.textContent = Math.floor(current) + suffix;
         }
     }, 16);
 }
@@ -111,11 +115,13 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Initialize typing animation when page loads
+// Initialize animations when page loads
 window.addEventListener('load', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    const originalText = heroTitle.innerHTML;
-    typeWriter(heroTitle, originalText, 50);
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        heroContent.style.opacity = '1';
+        heroContent.style.transform = 'translateY(0)';
+    }
 });
 
 // Parallax effect for hero section
@@ -445,7 +451,7 @@ window.addEventListener('load', () => {
 });
 
 console.log('🚀 Portfolio loaded successfully!');
-console.log('💫 Welcome to Dhavala Dinesh Kumar\'s Portfolio');
-console.log('🎨 Designed with modern UI/UX principles');
-console.log('⚡ Optimized for performance and accessibility');
+console.log('💫 Welcome to Dinesh Kumar\'s Portfolio');
+console.log('🎨 Designed with Founder-level premium UI/UX');
+console.log('⚡ Powered by AI & High-performance Logic');
 // Robot controller is loaded separately in robot-controller.js

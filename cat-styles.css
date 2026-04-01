@@ -2,11 +2,14 @@
 
 .beautiful-cat {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    left: auto;
+    transform: none;
     z-index: 9999;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
 }
@@ -49,27 +52,28 @@
     transform: translate(-50%, -50%);
     width: 100px;
     height: 100px;
-    background: radial-gradient(circle, rgba(255, 182, 193, 0.3) 0%, rgba(255, 105, 180, 0.2) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.3) 0%, rgba(168, 85, 247, 0.2) 40%, transparent 70%);
     border-radius: 50%;
     z-index: 1;
     animation: glowPulse 4s ease-in-out infinite;
 }
 
 .beautiful-cat:hover .cat-glow {
-    background: radial-gradient(circle, rgba(255, 182, 193, 0.5) 0%, rgba(255, 105, 180, 0.3) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.5) 0%, rgba(168, 85, 247, 0.3) 40%, transparent 70%);
     animation: glowExcited 0.6s ease-in-out infinite;
 }
 
 .cat-message {
     position: absolute;
     top: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-    color: #FF69B4;
+    right: 0;
+    left: auto;
+    transform: none;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+    color: var(--primary-color);
     padding: 12px 18px;
     border-radius: 20px;
-    border: 2px solid #FF69B4;
+    border: 2px solid var(--primary-color);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     pointer-events: none;
@@ -94,7 +98,7 @@
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid #FF69B4;
+    border-top: 10px solid var(--primary-color);
 }
 
 .cat-message::after {
@@ -107,7 +111,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid rgba(255, 255, 255, 0.95);
+    border-top: 8px solid rgba(15, 23, 42, 0.95);
 }
 
 .beautiful-cat:hover .cat-message,
@@ -236,10 +240,10 @@
 
 @keyframes textShimmer {
     0%, 100% {
-        color: #FF69B4;
+        color: var(--primary-color);
     }
     50% {
-        color: #FF1493;
+        color: var(--secondary-color);
     }
 }
 
